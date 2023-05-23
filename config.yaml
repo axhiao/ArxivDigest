@@ -20,7 +20,7 @@ to_email: "my0033@mix.wvu.edu"
 # will have their papers filtered out.
 #
 # Must be within 1-10
-threshold: 7
+threshold: 6
 
 # A natural language statement that the large language model will use to judge which papers are relevant 
 #
@@ -31,11 +31,12 @@ threshold: 7
 #
 # This can be empty, which just return a full list of papers with no judgement or filtering,
 # in whatever order arXiv responds with.
+# 1. Large language model pretraining and finetunings
 interest: |
-  1. Large language model pretraining and finetunings
-  2. Recommender systems
-  3. Collaborative filtering
-  4. Implicit recommendation
+  1. Recommender systems
+  2. Collaborative filtering
+  3. Implicit recommendation
+  4. Negative sampling in recommender systems and contrastive learning
   5. 3D human pose estimation
-  6. Multimodal machine learning
-  7. Not interested in paper focus on specific languages, e.g., Arabic, Chinese, etc.
+  6. Not interested in sequential recommendations
+  7. Not interested in paper focusing on specific languages, e.g., Arabic, Chinese, etc.
