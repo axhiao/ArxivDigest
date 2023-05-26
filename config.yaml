@@ -3,7 +3,18 @@ topic: "Computer Science"
 # An empty list here will include all categories in a topic
 # Use the natural language names of the topics, found here: https://arxiv.org
 # Including more categories will result in more calls to the large language model
-categories: ["Artificial Intelligence", "Computation and Language"]
+categories: ["Artificial Intelligence", "Computational Geometry", "Computer Vision and Pattern Recognition", "Information Retrieval", "Machine Learning"]
+
+# The email address that the digest will be sent from. must be the address matching
+# your sendgrid api key.
+# Leaving this empty will cause the script to use the
+# FROM_EMAIL environment variable instead
+from_email: "axhiao@gmail.com"
+
+# The email address you are going to send the digest to
+# Leaving this empty will cause the script to use the
+# TO_EMAIL environment variable instead
+to_email: "my0033@mix.wvu.edu"
 
 # Relevance score threshold. abstracts that receive a score less than this from the large language model
 # will have their papers filtered out.
@@ -20,8 +31,12 @@ threshold: 7
 #
 # This can be empty, which just return a full list of papers with no judgement or filtering,
 # in whatever order arXiv responds with.
+# 1. Large language model pretraining and finetunings
 interest: |
-  1. Large language model pretraining and finetunings
-  2. Multimodal machine learning
-  3. Do not care about specific application, for example, information extraction, summarization, etc.
-  4. Not interested in paper focus on specific languages, e.g., Arabic, Chinese, etc.
+  1. Recommender systems
+  2. Collaborative filtering
+  3. Implicit recommendation
+  4. Negative sampling in recommender systems and contrastive learning
+  5. 3D human pose estimation
+  6. Not interested in sequential recommendations
+  7. Not interested in paper focusing on specific languages, e.g., Arabic, Chinese, etc.
