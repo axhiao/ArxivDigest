@@ -72,7 +72,7 @@ def post_process_chat_gpt_response(paper_data, response, threshold_score=8):
         output_str += "Link: " + paper_data[idx]["main_page"] + "\n"
         for key, value in inst.items():
             paper_data[idx][key] = value
-            output_str += key + ": " + value + "\n"
+            output_str += str(key) + ": " + str(value) + "\n"
         paper_data[idx]['summarized_text'] = output_str
         selected_data.append(paper_data[idx])
     return selected_data, hallucination
