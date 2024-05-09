@@ -238,7 +238,7 @@ def generate_body(topic, categories, interest, threshold):
         papers = [
             t
             for t in papers
-            if bool(set(process_subject_fields(t["subjects"])) & set(categories))
+            if bool(set(process_subject_fields(t["subjects"][len('Subjects:'):])) & set(categories))
         ]
     else:
         papers = get_papers(abbr)
