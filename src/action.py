@@ -1,19 +1,13 @@
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, Email, To, Content
-
-from datetime import date
 
 import argparse
 import yaml
 import os
 from dotenv import load_dotenv
 import openai
+from openai import OpenAI
 from relevancy import generate_relevance_score, process_subject_fields
 from download_new_papers import get_papers
 
-
-# Hackathon quality code. Don't judge too harshly.
-# Feel free to submit pull requests to improve the code.
 
 topics = {
     "Physics": "",
@@ -221,7 +215,7 @@ category_map = {
 }
 
 
-def generate_body(topic, categories, interest, threshold):
+def generate_body(topic, categories, interest, threshold, client):
     if topic == "Physics":
         raise RuntimeError("You must choose a physics subtopic.")
     elif topic in physics_topics:
@@ -244,6 +238,7 @@ def generate_body(topic, categories, interest, threshold):
         papers = get_papers(abbr)
     if interest:
         relevancy, hallucination = generate_relevance_score(
+            client,
             papers,
             query={"interest": interest},
             threshold_score=threshold,
@@ -271,7 +266,6 @@ def generate_body(topic, categories, interest, threshold):
 
 
 if __name__ == "__main__":
-    # Load the .env file.
     load_dotenv()
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -284,30 +278,18 @@ if __name__ == "__main__":
     if "OPENAI_API_KEY" not in os.environ:
         raise RuntimeError("No openai api key found")
     openai.api_key = os.environ.get("OPENAI_API_KEY")
-
+    client = OpenAI(
+        api_key = openai.api_key
+    )
     topic = config["topic"]
     categories = config["categories"]
     from_email = os.environ.get("FROM_EMAIL")
     to_email = os.environ.get("TO_EMAIL")
     threshold = config["threshold"]
     interest = config["interest"]
-    body = generate_body(topic, categories, interest, threshold)
+    body = generate_body(topic, categories, interest, threshold, client)
     with open("digest.html", "w") as f:
         f.write(body)
-    if os.environ.get("SENDGRID_API_KEY", None):
-        sg = SendGridAPIClient(api_key=os.environ.get("SENDGRID_API_KEY"))
-        from_email = Email(from_email)  # Change to your verified sender
-        to_email = To(to_email)
-        subject = date.today().strftime("Personalized arXiv Digest, %d %b %Y")
-        content = Content("text/html", body)
-        mail = Mail(from_email, to_email, subject, content)
-        mail_json = mail.get()
-
-        # Send an HTTP POST request to /mail/send
-        response = sg.client.mail.send.post(request_body=mail_json)
-        if response.status_code >= 200 and response.status_code <= 300:
-            print("Send test email: Success!")
-        else:
-            print("Send test email: Failure ({response.status_code}, {response.text})")
-    else:
-        print("No sendgrid api key found. Skipping email")
+    
+    
+    ### send email here

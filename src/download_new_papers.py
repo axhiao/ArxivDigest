@@ -26,7 +26,9 @@ def _download_new_papers(field_abbr):
     new_paper_list = []
     for i in tqdm.tqdm(range(len(dt_list))):
         paper = {}
-        paper_number = dt_list[i].text.strip().split(" ")[2].split(":")[-1]
+        # paper_number = dt_list[i].text.strip().split(" ")[2].split(":")[-1]
+        # parse html to get paper's ID number
+        paper_number = dt_list[i].find('a', {'title': 'Abstract'}).get('id')
         paper['main_page'] = arxiv_base + paper_number
         paper['pdf'] = arxiv_base.replace('abs', 'pdf') + paper_number
 
