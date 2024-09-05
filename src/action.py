@@ -258,7 +258,7 @@ def generate_body(topic, categories, interest, threshold, client):
     else:
         body = "<br><br>".join(
             [
-                f'Title: <a href="{paper["main_page"]}">{paper["title"]}</a><br>Authors: {paper["authors"]}'
+                f' <a href="{paper["main_page"]}">{paper["title"]}</a><br>Authors: {paper["authors"]}'
                 for paper in papers
             ]
         )
