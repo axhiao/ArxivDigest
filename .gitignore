@@ -161,3 +161,7 @@ cython_debug/
 
 # vim
 *.sw*
+
+.history/*
+.data/*
+digest.html
